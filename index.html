@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>England Manager</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Eng Manager">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=1782840372">
+<link rel="stylesheet" href="css/layout.css?v=1782840372">
+<link rel="stylesheet" href="css/components.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/menu.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/dashboard.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/squad.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/players.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/tactics.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/tournament.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/settings.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/match.css?v=1782840372">
+<link rel="stylesheet" href="css/screens/result.css?v=1782840372">
+<link rel="stylesheet" href="css/mobile.css?v=1782840372">
+<style>
+  html,body{background:#0b0b0e;color:#eeeef5;font-family:sans-serif;}
+  #loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0b0b0e;z-index:9999;gap:12px;}
+  #loading h1{font-size:52px;font-weight:900;letter-spacing:4px;color:#fff;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;}
+  #loading h1 span{color:#c8102e;}
+  #loading p{font-size:13px;letter-spacing:3px;color:#555568;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div id="loading"><h1>England <span>Manager</span></h1><p id="loading-msg">Loading...</p></div>
+<div id="app">
+  <div id="screen-menu"      class="screen active"></div>
+  <div id="screen-dashboard" class="screen"></div>
+  <div id="screen-squad"     class="screen"></div>
+  <div id="screen-match"     class="screen"></div>
+  <div id="screen-tactics"   class="screen"></div>
+  <div id="screen-tournament" class="screen"></div>
+  <div id="screen-result"    class="screen"></div>
+  <div id="screen-players"   class="screen"></div>
+</div>
+<script src="js/state.js"></script>
+<script src="js/data/formations.js"></script>
+<script src="js/data/nations.js"></script>
+<script src="js/data/players/master.js"></script>
+<script src="js/data/players/career_stats.js"></script>
+  <script src="js/data/players/player_engine.js"></script>
+<script src="js/data/players/1986.js"></script>
+<script src="js/data/players/1990.js"></script>
+<script src="js/data/players/1994.js"></script>
+<script src="js/data/players/1996.js"></script>
+<script src="js/data/players/1998.js"></script>
+<script src="js/data/players/2000.js"></script>
+<script src="js/data/players/2002.js"></script>
+<script src="js/data/players/2004.js"></script>
+<script src="js/data/players/2006.js"></script>
+<script src="js/data/players/2010.js"></script>
+<script src="js/data/players/2014.js"></script>
+<script src="js/data/players/2018.js"></script>
+<script src="js/data/players/2022.js"></script>
+<script src="js/data/opp_squads.js"></script>
+  <script src="js/data/fixtures/index.js"></script>
+<script src="js/data/flags.js"></script>
+<script src="js/data/tournament_logos.js"></script>
+<script src="js/data/tournament_assets.js"></script>
+<script src="js/data/qualifiers.js"></script>
+<script src="js/data/calendar.js"></script>
+<script src="js/data/buildup.js"></script>
+<script src="js/data/managers_by_year.js"></script>
+<script src="js/data/player_history.js"></script>
+<script src="js/data/tournament_buildup.js"></script>
+<script src="js/data/tournament_media.js"></script>
+<script src="js/data/tournament_stats.js"></script>
+<script src="js/data/training.js"></script>
+<script src="js/data/roles.js"></script>
+<script src="js/data/opp_styles.js"></script>
+<script src="js/data/confidence.js"></script>
+<script src="js/data/scouting_ranges.js"></script>
+<script src="js/data/campaign_fitness.js"></script>
+<script src="js/data/chemistry.js"></script>
+<script src="js/engine/positions.js"></script>
+<script src="js/tournaments/_engine.js"></script>
+<script src="js/tournaments/mexico86/data.js"></script>
+<script src="js/tournaments/euro88/data.js"></script>
+<script src="js/tournaments/italia90/data.js"></script>
+<script src="js/tournaments/euro96/data.js"></script>
+<script src="js/tournaments/france98/data.js"></script>
+<script src="js/tournaments/usa94/data.js"></script>
+<script src="js/tournaments/korea02/data.js"></script>
+<script src="js/tournaments/southafrica10/data.js"></script>
+<script src="js/tournaments/brazil14/data.js"></script>
+<script src="js/tournaments/russia18/data.js"></script>
+<script src="js/tournaments/qatar22/data.js"></script>
+<script src="js/tournaments/euro92/data.js"></script>
+<script src="js/tournaments/euro2000/data.js"></script>
+<script src="js/tournaments/euro2004/data.js"></script>
+<script src="js/tournaments/euro2008/data.js"></script>
+<script src="js/tournaments/euro2012/data.js"></script>
+<script src="js/tournaments/euro2016/data.js"></script>
+<script src="js/tournaments/euro2020/data.js"></script>
+<script src="js/tournaments/euro2024/data.js"></script>
+<script src="js/engine/campaign_phase.js"></script>
+    <script src="js/engine/match2.js"></script>
+    <script src="js/engine/sound.js"></script>
+<script src="js/ui/components.js"></script>
+<script src="js/ui/menu.js"></script>
+<script src="js/ui/dashboard.js"></script>
+<script src="js/ui/onboarding.js"></script>
+<script src="js/ui/squad.js"></script>
+<script src="js/ui/players.js"></script>
+<script src="js/ui/tactics.js"></script>
+<script src="js/ui/tournament.js"></script>
+<script src="js/ui/match.js"></script>
+<script src="js/ui/settings.js"></script>
+<script src="js/ui/result.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

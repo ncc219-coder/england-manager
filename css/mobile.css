@@ -1,0 +1,212 @@
+/**
+ * mobile.css — Mobile responsive overrides
+ *
+ * Deliberately kept in ONE file, loaded last, rather than scattered as
+ * @media blocks across all nine existing screen stylesheets. The whole
+ * game was built desktop-first with almost no responsive handling (a
+ * couple of tablet-width tweaks in dashboard.css/squad.css and nothing
+ * else) — retrofitting it screen by screen in-place would mean hunting
+ * through nine files to understand what mobile actually looks like, and
+ * a much higher chance of two similar-but-different rules drifting apart
+ * over time. Everything mobile-specific lives here instead; the desktop
+ * rules in every other file are untouched.
+ *
+ * Single breakpoint at 640px covers phones in portrait (this is a phone
+ * game retrofit, not a tablet layout — tablets and desktop share the
+ * existing desktop layout as-is).
+ */
+
+@media (max-width: 640px) {
+
+  /* ── GLOBAL SHELL ────────────────────────────────────────────────────── */
+
+  .topbar { height: auto; flex-wrap: wrap; }
+  .topbar-cell { padding: 8px 12px; }
+  .topbar-cell .label { font-size: 10px; }
+  .topbar-cell .value { font-size: 14px; }
+
+  .tab-btn { font-size: 11px; letter-spacing: .04em; padding: 0 4px; }
+
+  /* Modals: fixed desktop widths (640-800px) would force horizontal
+     scrolling or clip off-screen entirely on a phone — every modal
+     becomes a near-full-width sheet instead, anchored to the bottom
+     third of the viewport rather than centered (easier to reach with a
+     thumb, and avoids the keyboard covering an input field mid-screen). */
+  .modal-overlay { align-items: flex-end !important; padding: 0 !important; }
+  .modal-box, .modal-box.wide, .add-player-modal, .player-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92vh !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  /* ── MENU / NEW CAREER ──────────────────────────────────────────────── */
+
+  #screen-menu { flex-direction: column; overflow-y: auto; height: auto; min-height: 100vh; }
+  .menu-hero, .menu-sidebar { width: 100%; }
+  .menu-hero { padding: 32px 20px; flex-shrink: 0; }
+  .menu-title-sm { font-size: 44px; }
+  .menu-title-lg { font-size: 60px; }
+  .menu-subtitle { font-size: 14px; letter-spacing: .2em; margin-bottom: 24px; }
+  .menu-desc { font-size: 14px; max-width: 100%; margin-bottom: 28px; }
+  .menu-sidebar { border-left: none; border-top: 1px solid var(--border); max-height: 50vh; }
+
+  .newgame-overlay { align-items: flex-end; padding: 0; }
+  .newgame-box { width: 100%; max-height: 94vh; border-radius: 16px 16px 0 0; }
+  .newgame-era-grid { grid-template-columns: 1fr; }
+  .diff-grid { flex-wrap: wrap; }
+  .diff-card { flex: 1 1 45%; }
+
+  /* ── DASHBOARD ─────────────────────────────────────────────────────── */
+
+  .dash-nav-tabs { overflow-x: auto; }
+  .dash-nav-tab { padding: 0 10px; font-size: 12px; white-space: nowrap; }
+  .dash-nav-brand-title { font-size: 15px; }
+  .dash-mgr-name { font-size: 13px; }
+  .dash-record-num { font-size: 16px; }
+
+  /* The 360px fixed sidebar (board confidence, media meters) is wider
+     than an entire phone screen on its own — stack it below the main
+     panel instead of beside it. */
+  .dash-body { grid-template-columns: 1fr; grid-auto-rows: min-content; overflow-y: auto; }
+  .dash-sidebar { border-left: none; border-top: 1px solid var(--border); }
+
+  .mgmt-grid.two, .mgmt-grid.three, .mgmt-grid.four { grid-template-columns: 1fr; padding: 12px 16px; gap: 10px; }
+
+  .scouting-layout { grid-template-columns: 1fr; }
+  .scout-toolbar { grid-template-columns: 1fr; }
+  /* Dense 5-column data-table rows (name/pos/club/rating/action) don't
+     survive a 390px width at any font size that stays readable — collapse
+     to a 2-line card per row instead: identity on top, stats below. */
+  .scout-table-head { display: none; }
+  .scout-row {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    row-gap: 4px;
+  }
+
+  .fa-hero, .tournament-hero, .upgraded-match-centre {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .group-head, .group-row { grid-template-columns: 1fr repeat(6, 26px); gap: 3px; font-size: 11px; padding: 8px 6px; }
+
+  .media-meters { min-width: 0; width: 100%; }
+
+  /* ── SQUAD SELECTION ───────────────────────────────────────────────── */
+  /* Slot/player interaction here is already tap-based (no native HTML5
+     drag-and-drop anywhere in the app), so this is purely a layout
+     problem: a fixed 340px list panel next to a flexible pitch panel
+     simply doesn't fit side by side on a phone. Stack them, pitch first
+     (seeing your actual XI matters more than the browsable list), list
+     panel scrollable below it. */
+  .sq2-topbar { flex-wrap: wrap; height: auto; padding: 8px 10px; gap: 6px; }
+  .sq2-mode-tabs { order: 3; width: 100%; }
+  .sq2-mode-tab { flex: 1; }
+
+  .sq2-body { grid-template-columns: 1fr; grid-auto-rows: min-content; overflow-y: auto; }
+  .sq2-list-panel { order: 2; height: auto; max-height: 50vh; }
+  .sq2-right-panel { order: 1; }
+  .sq2-pitch-container { padding: 12px 0; }
+  .sq2-pitch-inner { width: min(320px, 92vw); height: calc(min(320px, 92vw) * 0.75); }
+
+  .sq2-row, .sq2-col-head {
+    grid-template-columns: 22px 30px 1fr 32px 22px 22px;
+    font-size: 12px;
+  }
+  /* Drop the two least essential stat columns (form icon, caps) on a
+     phone-width row rather than squeeze rating + two extra stats + a
+     name + both action buttons into ~350px. Rating stays (most useful
+     at a glance); the compare/profile buttons stay too (real actions,
+     not just stats). Same child order in the header row (blank, "Pos",
+     "Player", "Rat", "Form", "Cap", blank, blank). */
+  .sq2-row > :nth-child(5), .sq2-row > :nth-child(6),
+  .sq2-col-head > :nth-child(5), .sq2-col-head > :nth-child(6) { display: none; }
+  .sq2-view-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .sq2-view-tab { flex-shrink: 0; padding: 4px 8px; font-size: 10px; }
+
+  /* ── TACTICS ───────────────────────────────────────────────────────── */
+  /* Three fixed-width panes (420px pitch + flexible centre + 320px player
+     instructions) — 740px of fixed columns alone, nearly double a phone's
+     width. Stack them: pitch + formation first (the primary "what does my
+     team look like" view), then per-player instructions right below it
+     (this panel's content is driven by which pitch slot you just tapped,
+     so keeping it immediately adjacent matters), team-wide instructions
+     last. */
+  .tactics-body { grid-template-columns: 1fr; grid-auto-rows: min-content; overflow-y: auto; }
+  .tac-pitch-panel { order: 1; border-right: none; }
+  .tac-instruct-panel { order: 2; width: 100%; border-left: none; border-top: 1px solid var(--border); max-height: 40vh; }
+  .tac-centre { order: 3; }
+  .tac-pitch-wrap { width: min(360px, 94vw); margin: 0 auto; }
+
+  /* ── LIVE MATCH ────────────────────────────────────────────────────── */
+  /* Scoreboard: two 160px side blocks (320px) leave almost nothing for
+     the score itself on a 390px screen — shrink them and the score
+     numerals so the whole bar fits on one line without wrapping mid-shot. */
+  .match-sb { padding: 0 10px; height: 50px; }
+  .msb-left, .msb-right { width: 84px; }
+  .msb-team { font-size: 10px; }
+  .msb-num { font-size: 28px; min-width: 24px; }
+  .msb-sep { font-size: 18px; }
+  .msb-clock { font-size: 16px; }
+  .msb-venue { display: none; } /* reclaim space; venue isn't needed mid-match */
+
+  /* Pitch + commentary/stats panel were side by side (340px + flexible);
+     the pitch's own aspect ratio (340×520, i.e. taller than wide) means
+     a full-width phone pitch would eat most of the vertical space and
+     leave the panel with almost nothing — so instead of stacking full-
+     width, the pitch shrinks to a compact strip and the panel (read far
+     more often, during normal play) gets the vertical room. */
+  .match-main { flex-direction: column; overflow-y: auto; }
+  .match-pitch-wrap { width: min(220px, 60vw); flex-shrink: 0; margin: 0 auto; border-right: none; padding: 8px 8px 6px; }
+  .match-panel { min-height: 340px; }
+
+  /* ── TOURNAMENT ────────────────────────────────────────────────────── */
+  .t-body { grid-template-columns: 1fr; overflow-y: auto; }
+  .t-side-trophy { border-top: 1px solid var(--t-border, rgba(255,255,255,.07)); border-bottom: none; }
+
+  .t-gt-head, .t-gt-row { grid-template-columns: 20px 1fr repeat(4, 22px) 30px 30px; gap: 2px; padding: 8px 8px; font-size: 11px; }
+  .t-result-row, .t-result-row--full, .t-result-row--clickable {
+    grid-template-columns: 44px 1fr 1fr !important;
+    font-size: 12px;
+  }
+
+  /* Splash/victory/elimination screens use desktop cinematic type sizes
+     (64-80px) that would force awkward wrapping or overflow at 390px —
+     scaled down but kept deliberately large relative to everything else
+     on the phone screen, since these are the "biggest moment" screens
+     and should still feel like one. */
+  .splash-title { font-size: 34px; }
+  .t-team-flag { font-size: 32px; }
+  .t-awaiting-msg { font-size: 22px; }
+  .t-elim-score { font-size: 48px; }
+  .t-elim-headline { font-size: 26px; }
+  .t-victory-score { font-size: 44px; }
+  .t-victory-headline { font-size: 28px; }
+  .t-victory-badge svg, .t-victory-badge img { width: 84px; height: 84px; }
+
+  /* ── RESULT SCREEN ─────────────────────────────────────────────────── */
+  .res-summary-grid { grid-template-columns: 1fr; height: auto; }
+  .res-player-stat-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── PLAYERS SCREEN ────────────────────────────────────────────────── */
+  .pl-body { grid-template-columns: 1fr; overflow-y: auto; }
+  .pl-search { width: 100%; }
+  .pl-th-actions, .pl-td-actions { width: auto; }
+  .pl-attr-grid { grid-template-columns: repeat(3, 1fr); }
+  .scouting-summary-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Player bio slide-out panel (squad screen) — built with inline styles
+     (width:300px, position:fixed, right:0), so needs !important to win
+     over them. 300px doesn't technically overflow a phone screen, but a
+     narrow sidebar clipped to one side is a poor way to read a growing
+     panel — full width reads far better, especially now it includes a
+     match history list. */
+  #sq2-bio-panel { width: 100% !important; max-width: 100% !important; }
+
+  /* iOS Safari auto-zooms the whole page when focusing any input under
+     16px — applies globally rather than hunting down every input
+     individually. */
+  input, select, textarea { font-size: 16px !important; }
+}

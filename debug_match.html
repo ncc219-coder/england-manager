@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Match Test</title>
+<style>
+body { font-family: monospace; padding: 20px; background: #111; color: #eee; }
+button { margin: 5px; padding: 10px 20px; font-size: 14px; cursor: pointer; background:#333; color:#eee; border:1px solid #555; }
+#log { background: #222; padding: 10px; margin-top: 10px; white-space: pre-wrap; font-size: 12px; height: 500px; overflow-y: auto; border: 1px solid #444; }
+.screen { display:none; border:2px solid #555; padding:15px; margin-top:10px; background:#1a1a1a; min-height:200px; }
+.screen.active { display:block !important; }
+</style>
+</head>
+<body>
+<h2>England Manager — Match Debug v2</h2>
+<p style="color:#aaa">This shows exactly what the game does. Check the log AND the screens below.</p>
+<button onclick="runFullMatch()">▶ Run Full Match</button>
+<button onclick="clearLog()">Clear</button>
+<div id="log"></div>
+
+<h3 style="margin-top:20px">Match Screen:</h3>
+<div id="screen-match" class="screen"></div>
+<h3>Result Screen:</h3>
+<div id="screen-result" class="screen"></div>
+<h3>Dashboard:</h3>
+<div id="screen-dashboard" class="screen"></div>
+
+<script src="js/state.js"></script>
+<script src="js/data/formations.js"></script>
+<script src="js/data/nations.js"></script>
+<script src="js/data/players/master.js"></script>
+<script src="js/data/players/career_stats.js"></script>
+<script src="js/data/players/player_engine.js"></script>
+<script src="js/data/fixtures/index.js"></script>
+<script src="js/data/flags.js"></script>
+<script src="js/data/tournament_logos.js"></script>
+<script src="js/data/tournament_assets.js"></script>
+<script src="js/data/qualifiers.js"></script>
+<script src="js/engine/commentary.js"></script>
+<script src="js/engine/events.js"></script>
+<script src="js/engine/tactics.js"></script>
+<script src="js/engine/ratings.js"></script>
+<script src="js/engine/campaign_phase.js"></script>
+<script src="js/engine/match.js"></script>
+<script src="js/tournaments/_engine.js"></script>
+<script>require('js/tournaments/mexico86/data.js')</script>
+<script src="js/ui/components.js"></script>
+<script src="js/ui/menu.js"></script>
+<script src="js/ui/dashboard.js"></script>
+<script src="js/ui/squad.js"></script>
+<script src="js/ui/tactics.js"></script>
+<script src="js/ui/tournament.js"></script>
+<script src="js/ui/match.js"></script>
+<script src="js/ui/settings.js"></script>
+<script src="js/ui/result.js"></script>
+
+<script>
+function log(msg) {
+  const el = document.getElementById('log');
+  const t = new Date().toISOString().slice(11,23);
+  el.textContent += t + ' ' + msg + '\n';
+  el.scrollTop = el.scrollHeight;
+}
+function clearLog() { document.getElementById('log').textContent = ''; }
+
+// Intercept ALL console methods
+['log','warn','error'].forEach(method => {
+  const orig = console[method];
+  console[method] = function(...args) {
+    log('[' + method.toUpperCase() + '] ' + args.join(' '));
+    orig.apply(console, args);
+  };
+});
+
+window.onerror = function(msg, src, line, col, err) {
+  log('UNCAUGHT ERROR: ' + msg + ' (line ' + line + ')');
+  if (err) log('STACK: ' + err.stack);
+  return false;
+};
+
+// Track all UI.show calls
+const _origUIShow = window.UI ? window.UI.show?.bind(window.UI) : null;
+if (window.UI) {
+  window.UI.show = function(id) {
+    log('>>> UI.show("' + id + '")');
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('active');
+      log('    Screen content length: ' + el.innerHTML.length + ' chars');
+    } else {
+      log('    WARNING: element "' + id + '" not found!');
+    }
+  };
+}
+
+function runFullMatch() {
+  log('=== STARTING FULL MATCH TEST ===');
+  
+  // Setup state exactly like the real game
+  State.reset();
+  const era = 1990;
+  State.set('meta.era', era);
+  State.set('meta.manager', 'Test Manager');
+  
+  const startDate = window.getEraStartDate ? window.getEraStartDate(era) : era+'-01-01';
+  const startIdx  = window.getFirstFixtureIndex ? window.getFirstFixtureIndex(startDate) : 0;
+  State.set('campaign.fixtureIdx', startIdx);
+  State.set('campaign.completedFixtureIds', []);
+  State.set('campaign.phase', 'qualifying');
+  State.set('campaign.boardConfidence', 60);
+  State.set('campaign.playerMorale', {});
+  State.set('campaign.record', {w:0,d:0,l:0,gf:0,ga:0});
+  State.set('campaign.tactics', {formation:'4-4-2', mentality:'Balanced'});
+  State.set('campaign.injuries', []);
+
+  const pool = PlayerEngine.getPool(era);
+  State.set('squad.pool', pool);
+  State.set('squad.englandSquad', pool.slice(0,23).map(p=>p.id));
+  
+  const initStats = {};
+  pool.forEach(p => { initStats[p.id] = {caps: p.historicalCaps||0, goals: p.historicalGoals||0, form:[]}; });
+  State.set('campaign.playerStats', initStats);
+  
+  log('Pool size: ' + pool.length);
+  log('Era start index: ' + startIdx);
+  
+  const fix = window.ALL_FIXTURES[startIdx];
+  log('First fixture: ' + (fix ? fix.date + ' ' + fix.homeTeam + ' v ' + fix.awayTeam + ' (opp:' + fix.oppRating + ')' : 'NOT FOUND'));
+  
+  // Auto-fill XI
+  SquadUI.autoFillXI();
+  const slots = (State.get('squad.slots')||[]).filter(Boolean);
+  log('XI filled: ' + slots.length + ' players');
+  if (slots.length < 11) {
+    log('ERROR: Only ' + slots.length + ' players selected!');
+    return;
+  }
+  log('Starting XI: ' + slots.map(p=>p.name).join(', '));
+  
+  // Kick off
+  log('Calling SquadUI.kickOff()...');
+  SquadUI.kickOff();
+  log('kickOff() returned');
+  
+  // Check immediately (before setTimeout fires)
+  log('Score immediately: ' + JSON.stringify(State.get('match.score')));
+  log('Match phase immediately: ' + State.get('match.phase'));
+  
+  // Check after engine runs (setTimeout 50ms + time to complete + 2500ms result delay)
+  setTimeout(() => {
+    log('--- After 500ms ---');
+    log('Score: ' + JSON.stringify(State.get('match.score')));
+    log('Phase: ' + State.get('match.phase'));
+    log('Events: ' + (State.get('match.events')||[]).length);
+    log('Caps (Lineker): ' + (State.get('campaign.playerStats')||{})['lineker_g']?.caps);
+  }, 500);
+  
+  setTimeout(() => {
+    log('--- After 3000ms (result screen should have shown) ---');
+    log('Active screen: ' + (document.querySelector('.screen.active')?.id || 'NONE'));
+    log('Result screen content: ' + document.getElementById('screen-result').innerHTML.slice(0,200));
+  }, 3000);
+}
+
+log('Debug v2 loaded. Click "Run Full Match" to test.');
+</script>
+</body>
+</html>

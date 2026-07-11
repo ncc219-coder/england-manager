@@ -1,0 +1,30 @@
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font-ui);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;border:none;transition:background .18s,color .18s;white-space:nowrap;font-size:15px;}
+.btn:active{transform:scale(.98);} .btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+.btn-primary{background:var(--red);color:#fff;height:50px;padding:0 32px;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
+.btn-primary:hover:not(:disabled){background:var(--red-dark);}
+.btn-primary-full{width:100%;height:54px;font-size:16px;}
+.btn-primary-sm{height:40px;padding:0 20px;font-size:13px;}
+.btn-ghost{background:transparent;color:var(--t2);height:50px;padding:0 24px;
+  border:1px solid var(--border2);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);}
+.btn-ghost:hover:not(:disabled){border-color:var(--border3);color:var(--t1);}
+.btn-ghost-full{width:100%;height:46px;font-size:14px;}
+.tac-group{display:flex;gap:4px;}
+.tac-opt{flex:1;height:38px;background:var(--bg4);border:1px solid var(--border);
+  font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--t3);cursor:pointer;text-align:center;transition:all .14s;}
+.tac-opt:hover{border-color:var(--border3);color:var(--t2);}
+.tac-opt.active{background:var(--red-alpha);border-color:var(--red);color:var(--t1);}
+.progress-strip{display:flex;gap:3px;}
+.ps-seg{flex:1;height:4px;background:var(--border);border-radius:2px;transition:background .2s;}
+.ps-seg.on{background:var(--red);} .ps-seg.bench{background:var(--gold-dark);}
+.stat-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.stat-row-label{font-size:15px;color:var(--t2);width:96px;flex-shrink:0;}
+.stat-bar-wrap{flex:1;display:flex;flex-direction:column;gap:4px;}
+.stat-bar{display:flex;align-items:center;gap:8px;}
+.stat-bar-bg{flex:1;height:6px;background:var(--bg5);border-radius:3px;overflow:hidden;}
+.stat-bar-fill{height:100%;border-radius:3px;transition:width 1.2s ease;}
+.stat-bar-fill.eng{background:var(--red);} .stat-bar-fill.opp{background:var(--border3);}
+.stat-val{font-family:var(--font-ui);font-size:15px;font-weight:700;color:var(--t2);min-width:32px;text-align:right;}

@@ -1,0 +1,43 @@
+:root {
+  --bg:#0b0b0e; --bg2:#111115; --bg3:#17171d; --bg4:#1e1e26; --bg5:#26262f;
+  --border:#22222c; --border2:#2e2e3c; --border3:#3c3c50;
+  --red:#c8102e; --red-dark:#9e0d24; --red-alpha:rgba(200,16,46,.14);
+  --blue:#001489; --blue-alpha:rgba(0,20,137,.25);
+  --gold:#e8b84b; --gold-dark:#c49a2a;
+  --t1:#eeeef5; --t2:#9292a8; --t3:#555568; --t4:#333342;
+  --green:#1db954; --orange:#e07820;
+  --pos-gk:#f0c040; --pos-def:#4a8eff; --pos-mid:#3ecf7c; --pos-fwd:#c8102e;
+  --font-ui:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
+  --font-serif:'Playfair Display',serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  width:100%;height:100%;
+  background:var(--bg);color:var(--t1);
+  font-family:var(--font-body);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+/* HARD MINIMUM — nothing smaller than 16px anywhere in the game */
+body { font-size:16px; }
+#app{width:100%;height:100vh;position:relative;overflow:hidden;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border3);border-radius:3px;}
+
+.label{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);}
+.pos-badge{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.pos-badge.gk{color:var(--pos-gk);} .pos-badge.def{color:var(--pos-def);}
+.pos-badge.mid{color:var(--pos-mid);} .pos-badge.fwd{color:var(--pos-fwd);}
+.rating{font-family:var(--font-ui);font-weight:800;font-size:18px;}
+.rating.elite{color:var(--gold);} .rating.good{color:#88d44a;}
+.rating.avg{color:var(--t2);} .rating.poor{color:var(--orange);}
+.tag{display:inline-block;font-family:var(--font-ui);font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:2px;}
+.tag-red{background:var(--red-alpha);color:var(--red);}
+.tag-blue{background:var(--blue-alpha);color:#6688ff;}
+.tag-gray{background:var(--bg4);color:var(--t2);}
+.tag-gold{background:rgba(232,184,75,.12);color:var(--gold);}
+.tag-green{background:rgba(29,185,84,.12);color:var(--green);}

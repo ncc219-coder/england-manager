@@ -1,0 +1,107 @@
+/**
+ * 1994.js — England squad era, 1994
+ * England failed to qualify for USA 94 under Graham Taylor.
+ * This squad represents what Taylor had available in the qualifying period.
+ */
+window.ALL_PLAYERS = window.ALL_PLAYERS || {};
+window.PLAYERS_1994 = [
+  { id:'seaman_d94', name:'David Seaman', dob:'1963-09-19', pos:'GK', posG:'GK', club:'Arsenal', rat:86, age:30, caps:20, goals:0, nat:'England', height:191, weight:90, foot:'right',
+    attrs:{ han:17, ref:17, kic:14, aer:16, thw:14, onv:16, sta:14, com:16, dec:15, bra:15, lea:14, pos:17 },
+    bio:'Arsenal\'s outstanding keeper. England\'s best by a distance. Commanding, reliable, exceptional shot-stopper.', traits:['Shot Stopper','Commanding Presence'], weaknesses:['Distribution'] },
+  { id:'adams_t94', name:'Tony Adams', dob:'1966-10-10', pos:'CB', posG:'DEF', club:'Arsenal', rat:85, age:27, caps:35, goals:4, nat:'England', height:188, weight:85, foot:'right',
+    attrs:{ fin:6, sho:9, hea:18, pas:13, lng:11, cro:7, dri:8, tec:11, fre:7, pac:10, acc:9, sta:15, str:18, jum:17, agi:9, vis:13, dec:15, com:16, pos:17, wor:15, bra:19, lea:18, tac:17, mar:18, int:15 },
+    bio:'At the height of his powers as Arsenal\'s defensive rock. International captain. Tremendous physical presence.', traits:['Captain','Leader','Aerial Dominant','Physical'], weaknesses:['Pace'] },
+  { id:'pallister_g94', name:'Gary Pallister', dob:'1965-06-30', pos:'CB', posG:'DEF', club:'Man Utd', rat:85, age:28, caps:22, goals:0, nat:'England', height:191, weight:84, foot:'right',
+    attrs:{ fin:5, sho:7, hea:16, pas:12, lng:11, cro:6, dri:9, tec:12, fre:7, pac:14, acc:13, sta:15, str:16, jum:16, agi:12, vis:13, dec:14, com:14, pos:16, wor:13, bra:14, lea:14, tac:16, mar:16, int:14 },
+    bio:'Part of Fergie\'s dominant Man Utd side. Commanding, composed, excellent alongside Adams.', traits:['Composed','Good In Air','Technical'], weaknesses:['Pace Against Elite'] },
+  { id:'walker_d94', name:'Des Walker', dob:'1965-11-26', pos:'CB', posG:'DEF', club:"Nott'm Forest", rat:82, age:28, caps:56, goals:0, nat:'England', height:180, weight:76, foot:'right',
+    attrs:{ fin:4, sho:5, hea:14, pas:11, lng:9, cro:6, dri:9, tec:10, fre:5, pac:18, acc:18, sta:16, str:14, jum:13, agi:17, vis:12, dec:13, com:13, pos:16, wor:15, bra:14, lea:12, tac:16, mar:17, int:15 },
+    bio:'Still one of the fastest defenders in England despite moving to Italy and back. Excellent marker.', traits:['Pace Merchant','Marker'], weaknesses:['Distribution','Goals'] },
+  { id:'pearce_s94', name:'Stuart Pearce', dob:'1962-04-24', pos:'LB', posG:'DEF', club:"Nott'm Forest", rat:85, age:31, caps:50, goals:5, nat:'England', height:175, weight:78, foot:'left',
+    attrs:{ fin:9, sho:16, hea:13, pas:13, lng:11, cro:13, dri:12, tec:12, fre:17, pac:14, acc:13, sta:17, str:17, jum:13, agi:11, vis:12, dec:13, com:15, pos:15, wor:18, bra:19, lea:16, tac:17, mar:16, int:14 },
+    bio:'Ferocious, committed, unstoppable. Free kick quality is elite. Vital for any England team.', traits:['Warrior','Free Kick Specialist','Left Foot'], weaknesses:['Subtlety','Pace'] },
+  { id:'gascoigne_p94', name:'Paul Gascoigne', dob:'1967-05-27', pos:'CM', posG:'MID', club:'Lazio', rat:86, age:26, caps:38, goals:8, nat:'England', height:178, weight:86, foot:'right',
+    attrs:{ fin:14, sho:16, hea:13, pas:17, lng:16, cro:14, dri:18, tec:18, fre:17, pac:15, acc:14, sta:13, str:15, jum:13, agi:16, vis:18, dec:12, com:10, pos:14, wor:14, bra:16, lea:10, tac:10, mar:9, int:11 },
+    bio:'Playing for Lazio. Brilliant when fit but fitness and temperament remain concerns. The most gifted Englishman of his generation.', traits:['Genius','Dribbling Master','Visionary','Free Kick Specialist'], weaknesses:['Discipline','Composure','Fitness'] },
+  { id:'ince_p94', name:'Paul Ince', dob:'1967-10-21', pos:'CM', posG:'MID', club:'Man Utd', rat:83, age:26, caps:30, goals:2, nat:'England', height:178, weight:77, foot:'right',
+    attrs:{ fin:10, sho:13, hea:13, pas:13, lng:12, cro:10, dri:13, tec:13, fre:10, pac:14, acc:13, sta:16, str:16, jum:13, agi:13, vis:13, dec:14, com:14, pos:14, wor:17, bra:17, lea:15, tac:15, mar:13, int:15 },
+    bio:'Combative midfield presence. Part of United\'s dominant side. Physical, aggressive, hard to beat.', traits:['Ball Winner','Engine','Physical'], weaknesses:['Creativity'] },
+  { id:'shearer_a94', name:'Alan Shearer', dob:'1970-08-13', pos:'ST', posG:'FWD', club:'Blackburn', rat:88, age:23, caps:10, goals:4, nat:'England', height:183, weight:82, foot:'right',
+    attrs:{ fin:18, sho:18, hea:17, pas:10, lng:8, cro:7, dri:11, tec:12, fre:13, pac:15, acc:14, sta:16, str:17, jum:16, agi:12, vis:12, dec:15, com:15, pos:16, wor:15, bra:16, lea:14, tac:6, mar:5, int:6 },
+    bio:'Still emerging but already one of the best strikers in England. Power, pace, heading. Will become world class.', traits:['Power Striker','Aerial','Clinical','High Potential'], weaknesses:['Link-Up Play'] },
+  { id:'wright_i', name:'Ian Wright', dob:'1963-11-03', pos:'ST', posG:'FWD', club:'Arsenal', rat:84, age:30, caps:22, goals:9, nat:'England', height:175, weight:73, foot:'right',
+    attrs:{ fin:17, sho:16, hea:14, pas:9, lng:7, cro:6, dri:14, tec:14, fre:10, pac:16, acc:16, sta:13, str:12, jum:13, agi:16, vis:13, dec:14, com:13, pos:16, wor:14, bra:14, lea:13, tac:4, mar:4, int:5 },
+    bio:'Prolific Arsenal striker. Pace, agility, clinical in front of goal. Never quite got the international career his club form deserved.', traits:['Clinical Finisher','Pace','Poacher'], weaknesses:['Hold-Up Play','Heading','Tracking Back'] },
+  { id:'ferdinand_l94', name:'Les Ferdinand', dob:'1966-12-08', pos:'ST', posG:'FWD', club:'QPR', rat:81, age:27, caps:8, goals:3, nat:'England', height:183, weight:84, foot:'right',
+    attrs:{ fin:15, sho:15, hea:17, pas:10, lng:8, cro:6, dri:11, tec:12, fre:9, pac:15, acc:14, sta:15, str:17, jum:16, agi:12, vis:11, dec:13, com:13, pos:15, wor:14, bra:14, lea:12, tac:5, mar:5, int:5 },
+    bio:'Powerful QPR striker destined for bigger things. Aerial strength and pace are a deadly combination.', traits:['Aerial Threat','Physical','Pace'], weaknesses:['Link-Up Play'] },
+];
+window.PLAYERS_1994.forEach(p => window.ALL_PLAYERS[p.id] = p);
+
+
+window.PLAYERS_1994_EXT = [
+  { id:'beasant_d94', name:'Dave Beasant', dob:'1959-03-20', pos:'GK', posG:'GK', club:'Chelsea', rat:73, age:35, caps:2, goals:0, nat:'England', height:191, weight:86, foot:'right',
+    attrs:{ han:14, ref:13, kic:13, aer:14, thw:12, onv:13, sta:11, com:13, dec:13, bra:14, lea:12, pos:13 },
+    bio:"Reliable backup keeper. Wimbledon FA Cup hero. Experienced option.", traits:['Experienced'], weaknesses:['Age'] },
+  { id:'flowers_r94', name:'Tim Flowers', dob:'1967-02-03', pos:'GK', posG:'GK', club:'Blackburn', rat:76, age:27, caps:11, goals:0, nat:'England', height:185, weight:80, foot:'right',
+    attrs:{ han:15, ref:15, kic:13, aer:14, thw:13, onv:14, sta:14, com:14, dec:14, bra:14, lea:13, pos:14 },
+    bio:"Blackburn's excellent keeper during their title-challenging seasons. Should have more caps.", traits:['Shot Stopper','Consistent'], weaknesses:['Distribution'] },
+  { id:'bruce_s94', name:'Steve Bruce', dob:'1960-12-31', pos:'CB', posG:'DEF', club:'Man Utd', rat:82, age:33, caps:0, goals:0, nat:'England', height:184, weight:84, foot:'right',
+    attrs:{ fin:9, sho:12, hea:17, pas:12, lng:10, cro:6, dri:6, tec:10, fre:9, pac:9, acc:8, sta:14, str:18, jum:17, agi:8, vis:12, dec:16, com:16, pos:16, wor:14, bra:18, lea:18, tac:16, mar:16, int:14 },
+    bio:"Double winner with United. The most scandalous omission in England history continues.", traits:['Never Capped','Champion','Leader','Aerial'], weaknesses:['Pace','Injustice'] },
+  { id:'keown_m94', name:'Martin Keown', dob:'1966-07-24', pos:'CB', posG:'DEF', club:'Arsenal', rat:79, age:27, caps:7, goals:0, nat:'England', height:183, weight:77, foot:'right',
+    attrs:{ fin:5, sho:7, hea:15, pas:11, lng:10, cro:6, dri:8, tec:10, fre:6, pac:13, acc:12, sta:15, str:15, jum:15, agi:12, vis:11, dec:14, com:14, pos:15, wor:17, bra:17, lea:13, tac:16, mar:17, int:14 },
+    bio:"Arsenal defensive enforcer. Tenacious, physical, excellent marker.", traits:['Tenacious Marker','Physical'], weaknesses:['Ball Playing'] },
+  { id:'dicks_j94', name:'Julian Dicks', dob:'1968-08-08', pos:'LB', posG:'DEF', club:'West Ham', rat:80, age:25, caps:0, goals:0, nat:'England', height:178, weight:80, foot:'left',
+    attrs:{ fin:10, sho:16, hea:14, pas:12, lng:11, cro:14, dri:13, tec:12, fre:16, pac:14, acc:13, sta:17, str:18, jum:13, agi:12, vis:12, dec:11, com:13, pos:14, wor:17, bra:19, lea:14, tac:16, mar:15, int:13 },
+    bio:"The Terminator at his absolute peak. Still mysteriously uncapped. Left foot is a weapon.", traits:['Warrior','Free Kick Specialist','Left Foot'], weaknesses:['Discipline','Never Capped'] },
+  { id:'le_saux_g94', name:'Graeme Le Saux', dob:'1968-10-17', pos:'LB', posG:'DEF', club:'Blackburn', rat:80, age:25, caps:10, goals:0, nat:'England', height:175, weight:73, foot:'left',
+    attrs:{ fin:7, sho:10, hea:11, pas:14, lng:12, cro:15, dri:13, tec:14, fre:10, pac:15, acc:14, sta:16, str:12, jum:11, agi:14, vis:13, dec:14, com:13, pos:14, wor:15, bra:13, lea:12, tac:14, mar:14, int:13 },
+    bio:"Technical left back. European-style footballer at Blackburn. Left-footed and going forward.", traits:['Technical','Left Foot','Overlapping'], weaknesses:['Temperament'] },
+  { id:'platt_d94', name:'David Platt', dob:'1966-06-10', pos:'CM', posG:'MID', club:'Sampdoria', rat:82, age:27, caps:50, goals:24, nat:'England', height:180, weight:78, foot:'right',
+    attrs:{ fin:16, sho:15, hea:14, pas:14, lng:12, cro:10, dri:12, tec:13, fre:12, pac:12, acc:11, sta:15, str:14, jum:13, agi:13, vis:14, dec:15, com:14, pos:15, wor:17, bra:14, lea:14, tac:12, mar:12, int:12 },
+    bio:"Playing in Italy at Sampdoria. 24 goals from midfield for England is remarkable. Hard-running, prolific.", traits:['Goals From Midfield','Engine','Box To Box'], weaknesses:['Technical Quality','Creativity'] },
+  { id:'lee_r', name:'Robert Lee', dob:'1966-02-01', pos:'CM', posG:'MID', club:'Newcastle', rat:78, age:28, caps:20, goals:2, nat:'England', height:179, weight:75, foot:'right',
+    attrs:{ fin:11, sho:12, hea:11, pas:14, lng:12, cro:11, dri:13, tec:14, fre:11, pac:14, acc:13, sta:16, str:12, jum:11, agi:13, vis:13, dec:13, com:13, pos:14, wor:16, bra:13, lea:12, tac:12, mar:11, int:12 },
+    bio:"Newcastle's excellent right midfielder. Part of Kevin Keegan's exciting team. Technical, hard-working.", traits:['Technical','Work Rate','Consistent'], weaknesses:['Consistency at International Level'] },
+  { id:'batty_d94', name:'David Batty', dob:'1968-12-02', pos:'CM', posG:'MID', club:'Blackburn', rat:78, age:25, caps:10, goals:0, nat:'England', height:172, weight:74, foot:'right',
+    attrs:{ fin:6, sho:10, hea:11, pas:13, lng:11, cro:8, dri:11, tec:12, fre:8, pac:14, acc:13, sta:18, str:14, jum:10, agi:13, vis:12, dec:13, com:13, pos:15, wor:19, bra:16, lea:13, tac:16, mar:14, int:15 },
+    bio:"Tireless ball winner. Blackburn midfield enforcer during their title push.", traits:['Ball Winner','Engine','Tireless'], weaknesses:['Goals','Creativity'] },
+  { id:'fowler_r94', name:'Robbie Fowler', dob:'1975-04-09', pos:'ST', posG:'FWD', club:'Liverpool', rat:79, age:19, caps:0, goals:0, nat:'England', height:180, weight:77, foot:'right',
+    attrs:{ fin:17, sho:16, hea:12, pas:9, lng:7, cro:5, dri:14, tec:15, fre:10, pac:15, acc:15, sta:13, str:11, jum:11, agi:14, vis:13, dec:14, com:13, pos:16, wor:12, bra:12, lea:11, tac:4, mar:4, int:5 },
+    bio:"God. 18 years old at Liverpool and already clinical. Natural goalscorer — scores five goals in a League Cup tie in 1993.", traits:['Natural Goalscorer','Young Talent','Clinical'], weaknesses:['Hold-Up Play','Aerial'] },
+  { id:'sheffield_n', name:'Andy Cole', dob:'1971-10-15', pos:'ST', posG:'FWD', club:'Newcastle', rat:82, age:22, caps:0, goals:0, nat:'England', height:178, weight:74, foot:'right',
+    attrs:{ fin:17, sho:16, hea:13, pas:10, lng:8, cro:6, dri:14, tec:14, fre:9, pac:17, acc:17, sta:14, str:13, jum:12, agi:15, vis:12, dec:14, com:13, pos:16, wor:14, bra:13, lea:12, tac:3, mar:3, int:4 },
+    bio:"Scores 34 Premier League goals this season. One of the most prolific strikers in England. Extraordinary goalscoring form.", traits:['Prolific','Natural Goalscorer','Pace','Clinical'], weaknesses:['Hold-Up Play','Link-Up'] },
+];
+window.PLAYERS_1994 = [...window.PLAYERS_1994, ...window.PLAYERS_1994_EXT];
+window.PLAYERS_1994_EXT.forEach(p => window.ALL_PLAYERS[p.id] = p);
+
+
+window.PLAYERS_1994 = window.PLAYERS_1994.concat([
+  { id:'martyn_n94', name:'Nigel Martyn', dob:'1966-08-11', pos:'GK', posG:'GK', club:'Crystal Palace', rat:79, age:27, caps:3, goals:0, nat:'England', height:183, weight:82, foot:'right',
+    attrs:{ han:15, ref:15, kic:13, aer:15, thw:13, onv:14, sta:14, com:14, dec:14, bra:13, lea:13, pos:14 },
+    bio:"Crystal Palace's excellent keeper. Consistent, reliable, good distribution. Should be getting more England opportunities.", traits:['Consistent','Reliable'], weaknesses:['Recognition'] },
+  { id:'flowers_t94', name:'Tim Flowers', dob:'1967-02-03', pos:'GK', posG:'GK', club:'Blackburn', rat:76, age:26, caps:11, goals:0, nat:'England', height:185, weight:80, foot:'right',
+    attrs:{ han:15, ref:15, kic:13, aer:14, thw:13, onv:14, sta:14, com:14, dec:14, bra:14, lea:13, pos:14 },
+    bio:"Blackburn's keeper during their title-challenging years. Solid, consistent shot-stopper.", traits:['Shot Stopper','Consistent'], weaknesses:['Distribution'] },
+  { id:'bould_s94', name:'Steve Bould', dob:'1962-11-16', pos:'CB', posG:'DEF', club:'Arsenal', rat:78, age:31, caps:2, goals:0, nat:'England', height:191, weight:87, foot:'right',
+    attrs:{ fin:5, sho:7, hea:16, pas:11, lng:10, cro:6, dri:7, tec:10, fre:6, pac:9, acc:8, sta:13, str:17, jum:17, agi:7, vis:11, dec:14, com:14, pos:15, wor:14, bra:16, lea:13, tac:16, mar:16, int:14 },
+    bio:"Double winner with Arsenal. Dominant aerially, colossal physically. Still only 2 caps — one of England's most criminally ignored defenders.", traits:['Aerial Dominant','Double Winner','Underrated'], weaknesses:['Pace','Age'] },
+  { id:'dorigo_t94', name:'Tony Dorigo', dob:'1965-12-31', pos:'LB', posG:'DEF', club:'Leeds Utd', rat:81, age:28, caps:15, goals:0, nat:'England', height:173, weight:72, foot:'left',
+    attrs:{ fin:7, sho:9, hea:11, pas:13, lng:12, cro:14, dri:13, tec:13, fre:9, pac:16, acc:15, sta:15, str:11, jum:11, agi:14, vis:13, dec:14, com:13, pos:14, wor:15, bra:13, lea:12, tac:15, mar:14, int:13 },
+    bio:"Leeds's attacking left back. Was in the 1990 squad as cover. Quick, good going forward.", traits:['Overlapping','Left Foot','Pace'], weaknesses:['Physical Duels','Aerial'] },
+  { id:'sinton_a', name:'Andy Sinton', dob:'1966-03-19', pos:'LM', posG:'MID', club:'Sheffield Wed', rat:75, age:27, caps:12, goals:0, nat:'England', height:173, weight:69, foot:'left',
+    attrs:{ fin:9, sho:11, hea:9, pas:13, lng:12, cro:14, dri:14, tec:13, fre:11, pac:15, acc:14, sta:14, str:10, jum:9, agi:14, vis:13, dec:13, com:12, pos:12, wor:15, bra:12, lea:10, tac:9, mar:8, int:9 },
+    bio:"Left-footed wide midfielder. Direct, hard-working, decent delivery. Regular England squad member.", traits:['Left Foot','Direct','Work Rate'], weaknesses:['Aerial','Physical'] },
+  { id:'sharpe_l', name:'Lee Sharpe', dob:'1971-05-27', pos:'LM', posG:'MID', club:'Man Utd', rat:77, age:22, caps:8, goals:0, nat:'England', height:183, weight:77, foot:'left',
+    attrs:{ fin:11, sho:12, hea:11, pas:13, lng:11, cro:14, dri:15, tec:14, fre:11, pac:17, acc:16, sta:13, str:11, jum:11, agi:14, vis:13, dec:12, com:12, pos:12, wor:13, bra:12, lea:10, tac:8, mar:8, int:9 },
+    bio:"Exciting young winger at United. Pace, directness, great left foot. Should be a key player for England for years.", traits:['Pace','Left Foot','Exciting'], weaknesses:['Consistency','Final Product'] },
+  { id:'merson_p94', name:'Paul Merson', dob:'1968-03-20', pos:'RM', posG:'MID', club:'Arsenal', rat:78, age:25, caps:10, goals:3, nat:'England', height:178, weight:78, foot:'right',
+    attrs:{ fin:12, sho:13, hea:11, pas:13, lng:11, cro:14, dri:15, tec:15, fre:12, pac:15, acc:14, sta:13, str:11, jum:10, agi:14, vis:14, dec:12, com:10, pos:12, wor:13, bra:12, lea:10, tac:9, mar:8, int:10 },
+    bio:"Gifted Arsenal attacker. Creative, unpredictable. Battling off-field problems but the talent is extraordinary.", traits:['Creative','Dribbler','Gifted'], weaknesses:['Composure','Discipline','Consistency'] },
+  { id:'cole_a94', name:'Andy Cole', dob:'1971-10-15', pos:'ST', posG:'FWD', club:'Newcastle', rat:83, age:22, caps:0, goals:0, nat:'England', height:178, weight:74, foot:'right',
+    attrs:{ fin:17, sho:16, hea:13, pas:10, lng:8, cro:6, dri:14, tec:14, fre:9, pac:17, acc:17, sta:14, str:13, jum:12, agi:15, vis:12, dec:14, com:13, pos:16, wor:14, bra:13, lea:12, tac:3, mar:3, int:4 },
+    bio:"34 Premier League goals this season. Somehow overlooked. One of the most prolific strikers in Europe right now.", traits:['Prolific','Clinical','Explosive','Record Breaker'], weaknesses:['Hold-Up Play','Link-Up'] },
+]);
+window.PLAYERS_1994.forEach(p => window.ALL_PLAYERS[p.id] = p);
