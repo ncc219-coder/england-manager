@@ -801,8 +801,20 @@ window.TournamentEngine = {
     const all = Object.entries(window.TOURNAMENTS || {});
     const era = State.get('meta.era') || 1986;
 
-    // Tournaments that England didn't appear in — never trigger
-    const noQualify = ['euro92']; // 1994 WC also but not built
+    // Previously hardcoded to always skip Euro 1992 ("Tournaments England
+    // didn't appear in — never trigger"), on the assumption that since
+    // England failed to qualify for it in real history, it should never
+    // appear in-game either. That's backwards for this game specifically:
+    // the whole point of the qualifying-cycle simulation is that a
+    // fictional England campaign CAN diverge from history and actually
+    // qualify — and euro92's tournament data (groups, dates, real
+    // historicalNotes about Lineker's substitution and Taylor's
+    // reputation) is fully built out, so there's no reason left to block
+    // it. This was why a manager who started a career around 1992 and
+    // genuinely reached the tournament window never saw a tournament
+    // screen at all — every match in that window just played as an
+    // ordinary fixture instead.
+    const noQualify = [];
 
     // Find the tournament whose dates overlap the current campaign date
     for (const [key, t] of all) {
