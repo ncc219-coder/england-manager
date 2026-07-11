@@ -954,9 +954,12 @@ window.MatchEngine2 = (function () {
     };
     const [fA,fM,fD] = FM[form] || [1,1,1];
 
-    // Mentality modifiers [att, mid, def]
-    const MM = { 'Attack':[1.12,1.00,0.88], 'Balanced':[1.00,1.00,1.00], 'Defend':[0.88,1.00,1.12] };
-    const [mA,mM,mD] = MM[ment] || [1,1,1];
+    // Mentality modifiers [att, mid, def] — graduated across the full
+    // 5-tier scale (see _mentalityScale) so Cautious/Positive land
+    // meaningfully between Balanced and the extremes, rather than being
+    // silently aliased to Balanced the way they used to be.
+    const ms = _mentalityScale(ment);
+    const mA = 1 + ms*0.12, mM = 1.00, mD = 1 - ms*0.12;
 
     const gk   = gks[0] || null;
     const gkR  = gk ? gk.handling * 0.5 + gk.positioning * 0.5 : 0.65;
@@ -1228,6 +1231,33 @@ window.MatchEngine2 = (function () {
 
   function getStamina(playerId) { return _stamina[playerId] ?? 1.0; }
 
+  // Maps England's 5-tier mentality setting (Defensive/Cautious/Balanced/
+  // Positive/Attack — the actual UI options) onto a single -1..+1 "how
+  // attacking" scale, used consistently everywhere England's own
+  // mentality affects the engine. Previously several of these checks only
+  // recognised the literal strings 'Attack' and 'Defend' — but 'Defend'
+  // isn't even one of the five real UI options ('Defensive' is), so the
+  // entire defensive half of the mentality slider (Defensive, Cautious)
+  // AND the lighter attacking option (Positive) silently did nothing at
+  // all, behaving exactly like Balanced regardless of what was selected.
+  // Kept separate from opponent mentality on purpose — the opponent-style
+  // system (opp_styles.js) deliberately uses its own internal-only
+  // 'Attack'/'Balanced'/'Defend' vocabulary that was never meant to
+  // expose the player-facing 5-tier scale, so that system is untouched.
+  function _mentalityScale(ment) {
+    const SCALE = { 'Defensive': -1.0, 'Cautious': -0.5, 'Balanced': 0, 'Positive': 0.5, 'Attack': 1.0 };
+    return SCALE[ment] ?? 0;
+  }
+  // Piecewise-linear interpolation for the (frequently asymmetric) old
+  // hardcoded endpoint values — e.g. attackBoost went 0.5 (old 'Defend')
+  // to 1.0 (Balanced) to 1.6 (Attack), not a symmetric range, so a plain
+  // multiply-by-scale wouldn't reproduce the original tuning at the
+  // endpoints. This preserves the exact original Attack/Defend values at
+  // ms=+1/-1 while giving Cautious/Positive genuine intermediate values.
+  function _lerpMentality(ms, atZero, atPos1, atNeg1) {
+    return ms >= 0 ? atZero + (atPos1 - atZero) * ms : atZero + (atZero - atNeg1) * ms;
+  }
+
   function _rebuildStats() {
     _state.es = _teamStats();
     const or = _state.or;
@@ -1414,7 +1444,7 @@ window.MatchEngine2 = (function () {
     const tac2  = State.get('match.tactics') || State.get('campaign.tactics') || {};
     const ment2 = tac2.mentality || 'Balanced';
     const press = tac2.press || 'Mid';
-    const mentBias = ment2 === 'Attack' ? 0.10 : ment2 === 'Defend' ? -0.10 : 0;
+    const mentBias = _mentalityScale(ment2) * 0.10;
     // Press affects possession: High press wins ball higher up the pitch
     const pressBias = press === 'High' ? 0.06 : press === 'Low' ? -0.06 : 0;
     // Difficulty affects how much England dominate possession vs weak sides
@@ -1476,8 +1506,9 @@ window.MatchEngine2 = (function () {
 
     const wideBoost   = form === '4-3-3' || form === '4-2-3-1' ? 1.5 : 1.0;
     const centBoost   = form === '4-5-1' || form === '4-1-4-1' ? 1.5 : 1.0;
-    const attackBoost = ment === 'Attack' ? 1.6 : ment === 'Defend' ? 0.5 : 1.0;
-    const defendBoost = ment === 'Defend' ? 1.8 : ment === 'Attack' ? 0.6 : 1.0;
+    const ms2 = _mentalityScale(ment);
+    const attackBoost = _lerpMentality(ms2, 1.0, 1.6, 0.5);
+    const defendBoost = _lerpMentality(ms2, 1.0, 0.6, 1.8);
 
     // Width setting: Wide pushes ball to flanks, Narrow keeps it central
     const widthWideBoost   = width === 'Wide'    ? 1.4 : width === 'Narrow' ? 0.7  : 1.0;
