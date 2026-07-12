@@ -194,6 +194,7 @@ window.PlayerEngine = {
       bio:      player.bio,
       traits:   player.traits || [],
       weaknesses: player.weaknesses || [],
+      secondaryPos: player.secondaryPos || [],
       // Career context for UI
       peakRat:   player.peakRat,
       peakYear:  player.peakYear,

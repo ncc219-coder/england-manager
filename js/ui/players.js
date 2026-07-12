@@ -355,7 +355,7 @@ window.PlayersUI = (function () {
         <div>
           <div class="pl-profile-kicker" style="color:${klColor}">${klLabel}</div>
           <div class="pl-profile-name">${p.name}</div>
-          <div class="pl-profile-sub">${p.pos} · ${p.club||''} · Age ${p.age||'?'} · ${_caps(p)} caps · ${_goals(p)} goals</div>
+          <div class="pl-profile-sub">${p.pos}${p.secondaryPos&&p.secondaryPos.length?` (also ${p.secondaryPos.join('/')})`:''} · ${p.club||''} · Age ${p.age||'?'} · ${_caps(p)} caps · ${_goals(p)} goals</div>
           ${injured?'<div class="pl-profile-injured">⚠ Currently injured</div>':''}
         </div>
         <div class="pl-profile-rat">${p.rat}</div>

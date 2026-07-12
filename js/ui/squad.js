@@ -144,10 +144,22 @@ window.SquadUI = (function () {
     return (State.get('campaign.playerStats')||{})[p.id]?.caps ?? p.historicalCaps ?? 0;
   }
 
-  function _posCompat(player, slotPosG) {
-    if (player.posG === slotPosG) return 'ok';
+  function _posCompat(player, slotPos, slotPosG) {
+    // Exact match on the specific slot (e.g. a real RB in an RB slot) or
+    // a genuine, researched secondary position (e.g. Phil Neville, whose
+    // real career included real minutes at LB/CM/DM) is a true fit.
+    if (slotPos && player.pos === slotPos) return 'ok';
+    if (slotPos && player.secondaryPos && player.secondaryPos.includes(slotPos)) return 'ok';
+    // Same broad group but neither their natural nor a documented
+    // secondary position — playable, but a genuine "not their real
+    // position" compromise rather than a confirmed fit. Previously this
+    // case was silently treated as fully "ok" for anyone in the right
+    // broad group at all, which hid exactly the kind of thin-position
+    // problem (e.g. real full-back cover) secondary positions exist to
+    // make visible.
+    if (player.posG === (slotPosG || slotPos)) return 'warn';
     const near = { MID:['DEF','FWD'], DEF:['MID'], FWD:['MID'] };
-    return (near[player.posG]||[]).includes(slotPosG) ? 'warn' : 'bad';
+    return (near[player.posG]||[]).includes(slotPosG || slotPos) ? 'warn' : 'bad';
   }
 
   function _squadPlayers() {
@@ -467,8 +479,8 @@ window.SquadUI = (function () {
       const {x,y}  = coords[i] || {x:160,y:120};
       const isAct  = _activeSlot === i;
       const isCap  = p && p.id === capId;
-      const isWarn = p ? _posCompat(p, sl.posG) === 'warn' : false;
-      const isBad  = p ? _posCompat(p, sl.posG) === 'bad'  : false;
+      const isWarn = p ? _posCompat(p, sl.pos, sl.posG) === 'warn' : false;
+      const isBad  = p ? _posCompat(p, sl.pos, sl.posG) === 'bad'  : false;
       const isInj  = p ? _isInjured(p) : false;
       const fm     = p ? _form(p) : null;
       const fitnessVal = (p && window.CampaignFitness) ? window.CampaignFitness.currentFitness(p.id) : 100;
@@ -622,6 +634,7 @@ window.SquadUI = (function () {
 
     // Determine active slot posG for compatibility highlighting
     const activeSlotPosG = _activeSlot !== null ? (form[_activeSlot]?.posG || null) : null;
+    const activeSlotPos  = _activeSlot !== null ? (form[_activeSlot]?.pos  || null) : null;
 
     const list = squad
       .filter(p => _filter === 'ALL' || p.posG === _filter)
@@ -629,7 +642,7 @@ window.SquadUI = (function () {
         p.name.toLowerCase().includes(_search) ||
         (p.club||'').toLowerCase().includes(_search));
 
-    const ctx = { inUse, slots, activeSlotPosG };
+    const ctx = { inUse, slots, activeSlotPosG, activeSlotPos };
 
     // Column-based sort the player controls (via clicking a header) — no
     // longer a fixed, unchangeable order. When targeting a pitch slot,
@@ -638,7 +651,7 @@ window.SquadUI = (function () {
     // whatever column happens to be sorted in that specific moment.
     const sortFn = (a, b) => {
       if (activeSlotPosG) {
-        const ca = _posCompat(a, activeSlotPosG), cb = _posCompat(b, activeSlotPosG);
+        const ca = _posCompat(a, activeSlotPos, activeSlotPosG), cb = _posCompat(b, activeSlotPos, activeSlotPosG);
         const rank = { ok:0, warn:1, bad:2 };
         if (rank[ca] !== rank[cb]) return rank[ca] - rank[cb];
       }
@@ -682,7 +695,7 @@ window.SquadUI = (function () {
     }).join('');
   }
 
-  function _renderRow(p, { inUse, slots, activeSlotPosG }) {
+  function _renderRow(p, { inUse, slots, activeSlotPosG, activeSlotPos }) {
     const u      = inUse.has(p.id);
     const si     = slots.findIndex(s=>s&&s.id===p.id);
     const onB    = _bench().some(b=>b.id===p.id);
@@ -693,7 +706,7 @@ window.SquadUI = (function () {
     // Compatibility with active slot
     let compatCls = '';
     if (activeSlotPosG && !u) {
-      const c = _posCompat(p, activeSlotPosG);
+      const c = _posCompat(p, activeSlotPos, activeSlotPosG);
       if (c === 'ok')   compatCls = ' sq2-compat-ok';
       if (c === 'warn') compatCls = ' sq2-compat-warn';
       if (c === 'bad')  compatCls = ' sq2-compat-bad';
@@ -707,7 +720,7 @@ window.SquadUI = (function () {
     if (_activeSlot !== null && activeSlotPosG && !u) {
       // Targeting a pitch slot — position fit matters more than whatever
       // view/columns are currently selected, so this always overrides.
-      const compat = _posCompat(p, activeSlotPosG);
+      const compat = _posCompat(p, activeSlotPos, activeSlotPosG);
       const compatLabel = compat === 'ok' ? '✓' : compat === 'warn' ? '~' : '✗';
       const compatColor = compat === 'ok' ? 'var(--green)' : compat === 'warn' ? 'var(--gold)' : 'var(--red)';
       rightCols = `
@@ -728,7 +741,7 @@ window.SquadUI = (function () {
           ${inj ? '<span class="sq2-inj-tag">INJ</span>' : ''}
           ${drill ? `<span class="sq2-inj-tag" style="background:rgba(55,138,221,.15);color:#6688ff" title="${drill.label}">${drill.icon}</span>` : ''}
         </div>
-        <div class="sq2-row-sub">${p.club||''} ${p.age ? '· '+p.age : ''}</div>
+        <div class="sq2-row-sub">${p.club||''} ${p.age ? '· '+p.age : ''}${p.secondaryPos&&p.secondaryPos.length ? ` · also ${p.secondaryPos.join('/')}` : ''}</div>
       </div>
       ${rightCols}
       <button class="sq2-row-compare-btn${_compareIds.includes(p.id)?' active':''}" onclick="event.stopPropagation();SquadUI._toggleCompare('${p.id}')" title="Compare">⇄</button>
@@ -826,7 +839,7 @@ window.SquadUI = (function () {
     if (!bench.some(p=>p.posG==='GK') && slots.some(p=>p.posG==='GK'))
       warnings.push('No backup goalkeeper on the bench');
 
-    const badMismatch = slots.filter((p,i) => form[i] && _posCompat(p,form[i].posG) === 'bad');
+    const badMismatch = slots.filter((p,i) => form[i] && _posCompat(p,form[i].pos,form[i].posG) === 'bad');
     if (badMismatch.length)
       warnings.push(badMismatch.map(p=>p.name.split(' ').pop()).join(', ') + ' playing out of position');
 
@@ -1066,9 +1079,20 @@ window.SquadUI = (function () {
     const { slots: form } = _formation();
     const chosen = [];
     const used   = new Set();
+    const tierRank = { ok: 0, warn: 1 };
     form.forEach(sl => {
-      const cands = squad.filter(p => !used.has(p.id) && _posCompat(p,sl.posG) !== 'bad')
-        .sort((a,b) => _selScore(b) - _selScore(a));
+      const cands = squad.filter(p => !used.has(p.id) && _posCompat(p,sl.pos,sl.posG) !== 'bad')
+        .sort((a,b) => {
+          // A genuine fit (exact or documented secondary position) is
+          // always preferred over a cross-group compromise, regardless
+          // of raw rating — previously this sorted by score alone, which
+          // could recommend a highly-rated midfielder for a defensive
+          // slot ahead of a real, if less glamorous, defender.
+          const ta = tierRank[_posCompat(a,sl.pos,sl.posG)] ?? 1;
+          const tb = tierRank[_posCompat(b,sl.pos,sl.posG)] ?? 1;
+          if (ta !== tb) return ta - tb;
+          return _selScore(b) - _selScore(a);
+        });
       const pick = cands[0];
       if (pick) { chosen.push({p:pick,sl}); used.add(pick.id); }
     });
@@ -1222,9 +1246,18 @@ window.SquadUI = (function () {
     const { slots: form } = _formation();
     const chosen = [];
     const used = new Set();
+    const tierRank = { ok: 0, warn: 1 };
     form.forEach(sl => {
-      const pick = squad.filter(p=>!used.has(p.id)&&_posCompat(p,sl.posG)!=='bad')
-        .sort((a,b)=>_selScore(b)-_selScore(a))[0];
+      const pick = squad.filter(p=>!used.has(p.id)&&_posCompat(p,sl.pos,sl.posG)!=='bad')
+        .sort((a,b) => {
+          // Genuine fit (exact or documented secondary position) beats a
+          // cross-group compromise regardless of raw rating — see the
+          // matching note in _planRecommend.
+          const ta = tierRank[_posCompat(a,sl.pos,sl.posG)] ?? 1;
+          const tb = tierRank[_posCompat(b,sl.pos,sl.posG)] ?? 1;
+          if (ta !== tb) return ta - tb;
+          return _selScore(b)-_selScore(a);
+        })[0];
       if (pick) { chosen.push(pick); used.add(pick.id); }
     });
     State.set('squad.slots', chosen);
